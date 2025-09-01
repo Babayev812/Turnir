@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Qeydiyyat Sistemi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      margin-top: 100px;
+      background: rgba(0,0,0,0.4);
+      padding: 30px;
+      border-radius: 15px;
+      display: inline-block;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+      border: none;
+      border-radius: 8px;
+      margin: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #ff9800;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #e68900;
+    }
+    #success {
+      display: none;
+      margin-top: 150px;
+      font-size: 22px;
+      font-weight: bold;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 12px;
+    }
+  </style>
+  <!-- Firebase SDK (compat versiya) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div id="loginPage" class="container">
+    <h2>Qeydiyyat</h2>
+    <input type="text" id="username" placeholder="İstifadəçi adı"><br>
+    <input type="password" id="password" placeholder="Şifrə"><br>
+    <button onclick="register()">Qeydiyyatdan keç</button>
+  </div>
+
+  <div id="success">
+    🎉 Təbriklər, qeydiyyatdan keçdiniz! 🎉
+  </div>
+
+  <script>
+    // 🔥 Sənin Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCuf2NbZfxjBktvDTyOwvfXWp20ZQ6Jk5k",
+      authDomain: "maviz-64e11.firebaseapp.com",
+      databaseURL: "https://maviz-64e11-default-rtdb.firebaseio.com",
+      projectId: "maviz-64e11",
+      storageBucket: "maviz-64e11.firebasestorage.app",
+      messagingSenderId: "1395603999",
+      appId: "1:1395603999:web:1bec3a52e14cec80acb32a",
+      measurementId: "G-THZWP024FH"
+    };
+
+    // Firebase başlat
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function register(){
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
+
+      if(user && pass){
+        // 🔥 İstifadəçi məlumatını Firebase-ə göndər
+        db.ref("users").push({
+          username: user,
+          password: pass,
+          time: Date.now()
+        });
+
+        // Səhifə dəyişsin
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("success").style.display = "block";
+      } else {
+        alert("Xahiş olunur bütün xanaları doldurun!");
+      }
+    }
+  </script>
+</body>
+</html>
